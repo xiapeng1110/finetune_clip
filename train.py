@@ -7,10 +7,10 @@
 # Half-precision Adam statistics
 # Half-precision stochastically rounded text encoder weights were used
 
-#BATCH_SIZE must larger than 1
+# BATCH_SIZE must larger than 1
 
 device = "cuda:0" if torch.cuda.is_available() else "cpu" # If using GPU then use mixed precision training.
-model, preprocess = clip.load("ViT-B/32",device=device,jit=False) #Must set jit=False for training
+model, preprocess = clip.load("ViT-B/32",device=device,jit=False) #M ust set jit=False for training
 
 class image_title_dataset(Dataset):
     def __init__(self, list_image_path,list_txt):
@@ -32,7 +32,7 @@ list_txt = ['description for image1.jpg' , 'description for image2.jpg']
 dataset = image_title_dataset(list_image_path,list_txt)
 train_dataloader = DataLoader(dataset,batch_size = BATCH_SIZE) #Define your own dataloader
 
-#https://github.com/openai/CLIP/issues/57
+# https://github.com/openai/CLIP/issues/57
 def convert_models_to_fp32(model): 
     for p in model.parameters(): 
         p.data = p.data.float() 
@@ -46,7 +46,7 @@ else :
 
 loss_img = nn.CrossEntropyLoss()
 loss_txt = nn.CrossEntropyLoss()
-optimizer = optim.Adam(model.parameters(), lr=5e-5,betas=(0.9,0.98),eps=1e-6,weight_decay=0.2) #Params used from paper, the lr is smaller, more safe for fine tuning to new dataset
+optimizer = optim.Adam(model.parameters(), lr=5e-5,betas=(0.9,0.98),eps=1e-6,weight_decay=0.2) # Params used from paper, the lr is smaller, more safe for fine tuning to new dataset
 
 # add your own code to track the training progress.
 for epoch in range(EPOCH):
@@ -79,8 +79,8 @@ for epoch in range(EPOCH):
         'loss': total_loss,
         }, f"model_checkpoint/model_10.pt") #just change to your preferred folder/filename
   
-  # Code to load the saved model :
-  model, preprocess = clip.load("ViT-B/32",device=device,jit=False) #Must set jit=False for training
+# Code to load the saved model :
+model, preprocess = clip.load("ViT-B/32",device=device,jit=False) #Must set jit=False for training
 checkpoint = torch.load("model_checkpoint/model_10.pt")
 
 # Use these 3 lines if you use default model setting(not training setting) of the clip. For example, if you set context_length to 100 since your string is very long during training, then assign 100 to checkpoint['model_state_dict']["context_length"] 
