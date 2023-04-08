@@ -1,4 +1,4 @@
-# Latest Update : 18 July 2022, 09:55 GMT+7
+# Latest Update : 8 April 2023, 13:00 GMT+8
 
 # TO ADD :
 # Gradient Checkpointing
@@ -7,7 +7,11 @@
 # Half-precision Adam statistics
 # Half-precision stochastically rounded text encoder weights were used
 
-# BATCH_SIZE must larger than 1
+# Reference: 
+# https://github.com/openai/CLIP/issues/83 
+# https://www.kaggle.com/code/zacchaeus/clip-finetune
+
+# NOTE: BATCH_SIZE must larger than 1
 
 device = "cuda:0" if torch.cuda.is_available() else "cpu" # If using GPU then use mixed precision training.
 model, preprocess = clip.load("ViT-B/32",device=device,jit=False) #M ust set jit=False for training
